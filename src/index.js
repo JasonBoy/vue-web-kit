@@ -1,9 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import 'bootstrap/dist/css/bootstrap.css';
+import Vue from 'vue';
 import App from './App';
-import './index.css';
+import router from './router';
 
-ReactDOM.render(
-  <App />,
-  document.getElementById('app')
-);
+/* eslint-disable no-new */
+new Vue({
+  el: '#app',
+  router,
+  template: '<App/>',
+  components: {App},
+});

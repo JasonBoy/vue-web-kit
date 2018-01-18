@@ -1,0 +1,11 @@
+/**
+ * Created by jason on 18/01/2018.
+ */
+
+.hello-wrapper {
+  color: mediumseagreen;
+  > p {
+    font-size: 50px;
+    text-decoration: underline;
+  }
+}

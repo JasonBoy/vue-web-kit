@@ -9,8 +9,7 @@
         "loose": true,
         "modules": false
       }
-    ],
-    "react"
+    ]
   ],
   "plugins": [
     "transform-runtime",

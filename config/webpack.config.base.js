@@ -24,9 +24,8 @@ const prefix = utils.normalizeTailSlash(
 module.exports = {
   entry: {
     vendors: [
-      'prop-types',
-      'react',
-      'react-dom',
+      'vue',
+      'vue-router',
       'whatwg-fetch',
       'url-parse',
       'lodash.isempty',
@@ -41,18 +40,19 @@ module.exports = {
       APP_PATH,
       'node_modules',
     ],
-    extensions: ['.js', '.jsx', '.json'],
+    extensions: ['.js', '.vue', '.json'],
     alias: {
+      'vue$': 'vue/dist/vue.esm.js',
       'src': APP_PATH,
-      'content': utils.resolve('src/content'),
       'components': utils.resolve('src/components'),
-      'store': utils.resolve('src/store'),
+      'assets': utils.resolve('src/assets'),
+      'modules': utils.resolve('src/modules'),
     }
   },
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.js$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',

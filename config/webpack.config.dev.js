@@ -25,6 +25,17 @@ module.exports = webpackMerge(baseWebpackConfig, {
   module: {
     rules: [
       {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+        exclude: /node_modules/,
+        options: {
+          loaders: {
+            // extractCSS: true,
+            scss: scssExtracted,
+          }
+        },
+      },
+      {
         test: /\.scss$/,
         include: APP_PATH,
         // exclude: /node_modules/,
