@@ -53,6 +53,7 @@ module.exports = webpackMerge(baseWebpackConfig, {
     ]
   },
   devtool: 'source-map',
+  // stats: 'errors-only',
   plugins: [
     libCSSExtract,
     scssExtract,
