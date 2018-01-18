@@ -55,7 +55,6 @@
     "lodash.isempty": "4.4.0",
     "moment": "2.20.1",
     "nunjucks": "3.0.1",
-    "prop-types": "15.6.0",
     "qs": "6.5.1",
     "request": "2.83.0",
     "request-debug": "0.2.0",
