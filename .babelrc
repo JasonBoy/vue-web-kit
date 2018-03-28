@@ -15,7 +15,8 @@
   "plugins": [
     "lodash",
     "transform-runtime",
-    "transform-object-rest-spread"
+    "transform-object-rest-spread",
+    "transform-vue-jsx"
   ],
   "comments": false
 }
