@@ -5,6 +5,7 @@
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 🚀A Modern, Production-Ready, and Full-Stack Node Web Framework with Vue.js
+> This framework is based on [koa-web-kit](https://github.com/JasonBoy/koa-web-kit) with Vue.js as a main UI library
 
 ## Features
 
