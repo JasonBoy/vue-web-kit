@@ -1,18 +1,15 @@
-# koa-web-kit
+# vue-web-kit
 
-[![npm](https://img.shields.io/npm/v/koa-web-kit.svg)](https://www.npmjs.com/package/koa-web-kit)
-[![Building Status](https://travis-ci.org/JasonBoy/koa-web-kit.svg?branch=master)](https://travis-ci.org/JasonBoy/koa-web-kit)
-[![node](https://img.shields.io/node/v/koa-web-kit.svg)](https://nodejs.org/)
-[![Dependency Status](https://david-dm.org/JasonBoy/koa-web-kit.svg)](https://david-dm.org/JasonBoy/koa-web-kit)
+[![Building Status](https://travis-ci.org/JasonBoy/vue-web-kit.svg?branch=master)](https://travis-ci.org/JasonBoy/vue-web-kit)
+[![node](https://img.shields.io/node/v/vue-web-kit.svg)](https://nodejs.org/)
+[![Dependency Status](https://david-dm.org/JasonBoy/vue-web-kit.svg)](https://david-dm.org/JasonBoy/vue-web-kit)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-🚀A Modern, Production-Ready, and Full-Stack Node Web Framework
-
-[An Introduction for koa-web-kit](https://blog.lovemily.me/koa-web-kit-a-modern-production-ready-and-full-stack-node-web-framework/)
+🚀A Modern, Production-Ready, and Full-Stack Node Web Framework with Vue.js
 
 ## Features
 
-- ✨Built with all modern frameworks and libs, including Koa2, React-v16, Bootstrap-v4, Webpack, ES6, Babel...
+- ✨Built with all modern frameworks and libs, including Koa2, Vue.js, Bootstrap-v4, Webpack, ES6, Babel...
 - 📦Get all the Node.JS full stack development experience out of the box
 - 🔥Hot Module Replacement support without refreshing whole page, and bundle size analyzer support
 - 📉Async/Await support for writing neat async code
@@ -24,10 +21,9 @@
 
 ### Quick Start
 
-Get the [latest version](https://github.com/JasonBoy/koa-web-kit/releases), and go to your project root,  
-Also available on [npm](https://www.npmjs.com/package/koa-web-kit), `npm i koa-web-kit --save`
+Clone or download the repo, and go to your project root,  
 
-> Before start, recommend to copy the `config.json.sample` to `config.json` for local dev configuration
+> Before start, recommend to copy the `config/app-config.js.sample` to `config/app-config.js` for local dev configuration
 
 1. Install Dependencies  
 ```bash
@@ -41,7 +37,7 @@ npm install --no-shrinkwrap
 `npm run dev` to start koa with HMR enabled(step 2 & 3 combined, skip step 3)  
 3. Start Koa Http Server  
 `npm start`  
-4. Go to `http://localhost:3000` to view the default react page, the demo page is based on [create-react-app](https://github.com/facebookincubator/create-react-app)
+4. Go to `http://localhost:3000` to view the default react page
 
 ### Project Structure
 
@@ -60,11 +56,11 @@ npm install --no-shrinkwrap
 ### Application Config and Environment Variables
 
 Every project has some configuration or environment variables to make it run differently in different environment,  
-for koa-web-kit, we also provide different ways to configure your ENVs.
+for vue-web-kit, we also provide different ways to configure your ENVs.
 
 #### app-config.js/app-config.js.sample
 
-The pre bundled file `app-config.js.sample` lists some common variables to use in the project, you should copy and rename it to `app-config.js` for your local config:
+The pre bundled file `app-config.js.sample` in `config` dir lists some common variables to use in the project, you should copy and rename it to `app-config.js` for your local config:
 ```javascript
 module.exports = {
   //http server listen port
