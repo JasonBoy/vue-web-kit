@@ -1,7 +1,6 @@
 # vue-web-kit
 
 [![Building Status](https://travis-ci.org/JasonBoy/vue-web-kit.svg?branch=master)](https://travis-ci.org/JasonBoy/vue-web-kit)
-[![node](https://img.shields.io/node/v/vue-web-kit.svg)](https://nodejs.org/)
 [![Dependency Status](https://david-dm.org/JasonBoy/vue-web-kit.svg)](https://david-dm.org/JasonBoy/vue-web-kit)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
