@@ -4,7 +4,7 @@
 [![Building Status](https://travis-ci.org/JasonBoy/koa-web-kit.svg?branch=master)](https://travis-ci.org/JasonBoy/koa-web-kit)
 [![node](https://img.shields.io/node/v/koa-web-kit.svg)](https://nodejs.org/)
 [![Dependency Status](https://david-dm.org/JasonBoy/koa-web-kit.svg)](https://david-dm.org/JasonBoy/koa-web-kit)
-[![Known Vulnerabilities](https://snyk.io/test/github/jasonboy/koa-web-kit/badge.svg)](https://snyk.io/test/github/jasonboy/koa-web-kit)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 🚀A Modern, Production-Ready, and Full-Stack Node Web Framework
 
@@ -14,19 +14,20 @@
 
 - ✨Built with all modern frameworks and libs, including Koa2, React-v16, Bootstrap-v4, Webpack, ES6, Babel...
 - 📦Get all the Node.JS full stack development experience out of the box
-- 👀Compile your source code instantly, Node.JS side code minification support
+- 🔥Hot Module Replacement support without refreshing whole page, and bundle size analyzer support
 - 📉Async/Await support for writing neat async code
 - 💖SASS preprocessor, PostCSS, autoprefixer for better css compatibility
 - 🎉Simple API Proxy bundled, no complex extra nginx configuration
-- 🌈PreConfigured Logger utility for better debug life
+- 🌈Available for generating static react site
 - ⚡️Just one npm command to deploy your app to production
-- 🔥Available for generating static react site
 - 👷Continuously Maintaining🍻
 
 ### Quick Start
 
 Get the [latest version](https://github.com/JasonBoy/koa-web-kit/releases), and go to your project root,  
 Also available on [npm](https://www.npmjs.com/package/koa-web-kit), `npm i koa-web-kit --save`
+
+> Before start, recommend to copy the `config.json.sample` to `config.json` for local dev configuration
 
 1. Install Dependencies  
 ```bash
@@ -36,9 +37,10 @@ yarn
 npm install --no-shrinkwrap
 ```
 2. Build Assets  
-`npm run build` or `npm run watch` for auto recompile your code
+`npm run build` or `npm run watch` for auto recompile your code, or  
+`npm run dev` to start koa with HMR enabled(step 2 & 3 combined, skip step 3)  
 3. Start Koa Http Server  
-`npm start`
+`npm start`  
 4. Go to `http://localhost:3000` to view the default react page, the demo page is based on [create-react-app](https://github.com/facebookincubator/create-react-app)
 
 ### Project Structure
@@ -60,21 +62,32 @@ npm install --no-shrinkwrap
 Every project has some configuration or environment variables to make it run differently in different environment,  
 for koa-web-kit, we also provide different ways to configure your ENVs.
 
-#### config.json/config.json.sample
+#### app-config.js/app-config.js.sample
 
-The pre bundled file `config.json.sample` lists some common variables to use in the project, you should copy and rename it to `config.json` for your local config:
+The pre bundled file `app-config.js.sample` lists some common variables to use in the project, you should copy and rename it to `app-config.js` for your local config:
 ```javascript
-config = {
-  "NODE_PORT": 3000, //http server listen port
-  "NODE_ENV": "development", //most commonly used env
-  "NODE_PROXY": true, //enable/disable built API Proxy
-  "PROXY_DEBUG_LEVEL": 0, //config the api proxy debug level, [0, 1, 2], 0 -> nothing
-  "STATIC_ENDPOINT": "", //static endpoint, e.g CDN for your static assets
-  "STATIC_PREFIX": "/public/", //add a alternative prefix for your "STATIC_ENDPOINT"
-  "PREFIX_TRAILING_SLASH": true, //add "/" to the end of your static url, if not existed
-  "APP_PREFIX": "", //global prefix for your routes, e.g http://a.com/prefix/...your app routes
-  //API PROXYs for multiple api endpoints with different prefix in router
+module.exports = {
+  //http server listen port
+  "PORT": 3000,
+  //most commonly used env
+  "NODE_ENV": "development",
+  //enable/disable built-in API Proxy
+  "NODE_PROXY": true,
+  //config the api proxy debug level, [0, 1, 2], 0 -> nothing, default: 1 -> simple, 2 -> verbose
+  "PROXY_DEBUG_LEVEL": 1,
+  //static endpoint, e.g CDN for your static assets
+  "STATIC_ENDPOINT": "",
+  //add a alternative prefix for your "STATIC_ENDPOINT"
+  "STATIC_PREFIX": "",
+  //add "/" to the end of your static url, if not existed
+  "PREFIX_TRAILING_SLASH": true,
+  //global prefix for your routes, e.g http://a.com/prefix/...your app routes,
+  //like a github project site
+  "APP_PREFIX": "",
+  //API Proxies for multiple api endpoints with different prefix in router
   "API_ENDPOINTS": {
+    //set a default prefix
+    "defaultPrefix": "/prefix",
     //e.g http://127.0.0.1:3000/prefix/api/login -->proxy to--> http://127.0.0.1:3001/api/login
     "/prefix": "http://127.0.0.1:3001",
     "/prefix2": "http://127.0.0.1:3002",
@@ -84,22 +97,22 @@ config = {
 
 #### Environment Variables
 
-All the variables in config.json can be set with Environment Variables, which have higher priority than `config.json`.
+All the variables in config.json can be set with Environment Variables, which have higher priority than `app-config.js`.
 e.g:  
 `> NODE_ENV=production npm start`  
 or  
 ```bash
-export NODE_PORT=3001
+export PORT=3001
 export NODE_ENV=production
 npm start
 ``` 
 BTW you can do Everything you can within cli to set your env.
 
-#### Default `config/build.dev(prod).js` in source code
+#### Default `config.default/dev(prod).js` in source code
 
 The project comes with default config files just like `config.json`, which will be used if neither above are provided.
 
-> Priority: *Environment Variables* > *config.json* > *default config/build.dev(prod).js*
+> Priority: *Environment Variables* > *app-config.js* > *default config.default./dev(prod).js*
 
 ### Template Engines
 __Default template engine is [nunjucks](https://github.com/mozilla/nunjucks)__,
@@ -111,22 +124,21 @@ The builtin `mw/logger.js` provides some default log functionality for your app,
 ### Production Deployment
 
 Deploy your app to production is extremely simple with only one npm script command, you can provide different options in different deployment phases(e.g: install, build, start server),    
-[pm2](https://github.com/Unitech/pm2) inside is used as node process manager, so you may need to `npm i -g pm2`.
+[pm2](https://github.com/Unitech/pm2) inside is used as node process manager.  
+> Global installation of PM2 is not required now, we will use the locally installed pm2.
+
 
 #### Usage
 
-`npm run deploy -- moduleName clusterNumber skipInstall skipBuild skipServer`  
-The last three options are boolean values in `0`(or empty, false) and `1`(true),  
-`moduleName` is only useful if you don't skipServer, but you still need to provide it if you have options following after, I will improve this later on🤣.
+`npm run deploy -- skipInstall skipBuild skipServer`  
+The last three options are boolean values in `0`(or empty, false) and `1`(true).  
 
 #### Examples:
 
-- `npm run deploy`: no options provided, default values are:  
-  `moduleName`=app; `clusterNumber`=0, which is "max"; and install deps, start building assets, and last start node server.
-- `npm run deploy -- app2 2`: if you have multi node apps within one vm, you need to use different name as show with "app2", also I only need to open 2 node instances here.
-- `npm run deploy -- app 2 1`: this will skip the `npm install --no-shrinkwrap`, and just go to build and start server.
-- `npm run deploy -- app 2 1 0 1`: which will only build your assets
-- `npm run deploy -- app 2 1 1 0`: which will just start node server, useful when all assets were built on a different machine.
+- `npm run deploy`: no options provided, defaults do the tasks.  
+- `npm run deploy -- 1`: this will skip the `npm install --no-shrinkwrap`, and just go to build and start server.
+- `npm run deploy -- 1 0 1`: which will only build your assets
+- `npm run deploy -- 1 1 0`: which will just start node server, useful when all assets were built on a different machine.
 
 > You may need to create/update the script to meet your own needs. 
 

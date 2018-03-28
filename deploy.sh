@@ -1,13 +1,7 @@
 #!/usr/bin/env bash
 #Create by Jason <jasonlikenfs@gmail.com>
 #This is meant for production
-# > ./deploy.sh moduleName clusterNumber skipInstall skipBuild skipServer
-ModuleName="app"
-AppName=${ModuleName}
-#Get/Set module name from argv
-if [[ $# != 0 && $1 != "" ]]; then
-  AppName=$1
-fi
+# > ./deploy.sh skipInstall skipBuild skipServer
 
 #using node >= 7.6
 #nvm use 8
@@ -16,7 +10,6 @@ fi
 echo $(which node)
 echo $(which pm2)
 
-#echo ${AppName} $#
 #Simple script to run app quickly
 NodeVersion=$(node -v)
 if [[ $? != 0 ]]; then
@@ -32,24 +25,24 @@ fi
 #rm -f package-lock.json
 
 #uncoment this if you are in China...
-TaobaoRegistry="http://registry.npm.taobao.org/"
-NpmRegistry=$(npm config get registry)
-npm config set registry ${TaobaoRegistry}
-if [ "$TaobaoRegistry" != "$NpmRegistry" ]; then
-  echo changing npm registry to taobao registry "$TaobaoRegistry"
-  npm config set registry "$TaobaoRegistry"
-fi
+#TaobaoRegistry="http://registry.npm.taobao.org/"
+#NpmRegistry=$(npm config get registry)
+#npm config set registry ${TaobaoRegistry}
+#if [ "$TaobaoRegistry" != "$NpmRegistry" ]; then
+#  echo changing npm registry to taobao registry "$TaobaoRegistry"
+#  npm config set registry "$TaobaoRegistry"
+#fi
 
 #export SASS_BINARY_SITE=https://npm.taobao.org/mirrors/node-sass/
 
 #installing npm modules
-if [[ $3 != "1" ]]; then
+if [[ $1 != "1" ]]; then
   echo installing npm modules...
   npm install --no-shrinkwrap
 #  yarn install --production=false
 fi
 
-if [[ $4 != "1" ]]; then
+if [[ $2 != "1" ]]; then
 #webpack is bundling modules
 echo webpack is bundling modules...
 npm run prod
@@ -58,12 +51,12 @@ echo ===build finished===
 fi
 
 #if skipBuild is false
-if [[ $5 != "1" ]]; then
+if [[ $3 != "1" ]]; then
   export NODE_ENV=production
 
   PMVersion=$(pm2 -v)
   if [[ $? != 0 ]]; then
-    echo ERROR: pls install pm2 to continue.[sudo npm install -g pm2]
+    echo ERROR: pls install pm2 to continue...
     exit
   #  echo installing pm2...
   #  npm install -g pm2
@@ -77,16 +70,11 @@ if [[ $5 != "1" ]]; then
     ClusterNumber=$2
   fi
 
-  #check if app is running
-  AppStatus=$(pm2 show "$AppName" | grep -o "$AppName")
   echo NODE_ENV: ${NODE_ENV}
-  echo using ${RunScript}
+  echo Using ${RunScript}
 
-  if [[ ${AppStatus} != "" ]]; then
-    echo ${AppName} is running, reloading ${AppName}
-    pm2 reload ${AppName}
-  else
-    echo ${AppName} is not running, starting ${AppName}
-    pm2 start ${RunScript} --no-vizion --name ${AppName} -i ${ClusterNumber}
-  fi
+  echo "Using pm2 [$(which pm2)]"
+
+  pm2 reload ecosystem.config.js --update-env --env production
+
 fi

@@ -1,6 +1,6 @@
 <template>
   <div class="hello-wrapper">
-    <p class="text-center">Hello Vue</p>
+    <p class="text-center">Hello Vue2</p>
   </div>
 </template>
 

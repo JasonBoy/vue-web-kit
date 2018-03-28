@@ -8,6 +8,7 @@ const Promise = require('bluebird');
 
 const logger = require('../mw/logger');
 const appConfig = require('../config/env');
+const isCustomAPIPrefix = appConfig.isCustomAPIPrefix();
 
 const debugLevel = appConfig.getProxyDebugLevel();
 
@@ -18,7 +19,7 @@ if (debugLevel && debugLevel > 0) {
 
 exports.getProxyOptions = getProxyOptions;
 
-exports.dispatchRequest = function () {
+exports.dispatchRequest = function() {
   return getApiPromise.apply(this, Array.from(arguments));
 };
 
@@ -32,17 +33,23 @@ function getApiPromise(apiEndpoint, needPromise, options) {
   let apiRequest = undefined;
   const ctx = this;
   const req = ctx.req;
-  const p = new Promise(function (resolve, reject) {
-    apiRequest = req.pipe(request(getProxyOptions.call(ctx, apiEndpoint, options), function (err, response, body) {
-      if (err) {
-        logger.error(err);
-      }
-      if (response.statusCode !== 200) {
-        reject({body, response, err});
-      } else {
-        resolve({body, response});
-      }
-    }));
+  const p = new Promise(function(resolve, reject) {
+    apiRequest = req.pipe(
+      request(getProxyOptions.call(ctx, apiEndpoint, options), function(
+        err,
+        response,
+        body
+      ) {
+        if (err) {
+          logger.error(err);
+        }
+        if (!response || response.statusCode !== 200) {
+          reject({ body, response, err });
+        } else {
+          resolve({ body, response });
+        }
+      })
+    );
   });
   if (!needPromise) {
     apiRequest.pipe(ctx.res);
@@ -56,13 +63,16 @@ function getApiPromise(apiEndpoint, needPromise, options) {
  * @param {object} options
  * @returns {object}
  */
-function getProxyOptions(apiEndPoint, options) {
+function getProxyOptions(apiEndPoint, options = {}) {
   let defaultOptions = {
-    url: this.url,
-    baseUrl: apiEndPoint ? apiEndPoint : '',
+    url:
+      isCustomAPIPrefix && options.prefix
+        ? this.url.substring(options.prefix.length)
+        : this.url,
+    baseUrl: apiEndPoint || '',
     method: this.method,
     // json: true,
-    gzip: true
+    // gzip: true
   };
   if (!_.isEmpty(options)) {
     defaultOptions = Object.assign(defaultOptions, options);
