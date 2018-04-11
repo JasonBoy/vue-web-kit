@@ -15,15 +15,27 @@ const isBundleAnalyzerEnabled = config.isBundleAnalyzerEnabled();
 
 const APP_PATH = utils.APP_PATH;
 
-const libCSSExtract = new ExtractTextPlugin(
-  utils.getName('common', 'css', 'contenthash', false)
-);
-const scssExtract = new ExtractTextPlugin(
-  utils.getName('[name]', 'css', 'contenthash', false)
-);
-const scssExtracted = scssExtract.extract(
-  utils.getStyleLoaders('css-loader', 'postcss-loader', 'sass-loader', false)
-);
+const libCSSExtract = new ExtractTextPlugin({
+  filename: utils.getName('common', 'css', 'contenthash', false),
+  allChunks: true,
+});
+const scssExtract = new ExtractTextPlugin({
+  filename: utils.getName('[name]', 'css', 'contenthash', false),
+  allChunks: true,
+});
+const scssExtracted = scssExtract.extract({
+  use: utils.getStyleLoaders(
+    'css-loader',
+    'postcss-loader',
+    'sass-loader',
+    false
+  ),
+  fallback: 'style-loader',
+});
+const libCSSExtracted = libCSSExtract.extract({
+  use: utils.getStyleLoaders('css-loader', 'postcss-loader', false),
+  fallback: 'style-loader',
+});
 
 const webpackConfig = webpackMerge(baseWebpackConfig, {
   output: {
@@ -60,21 +72,20 @@ const webpackConfig = webpackMerge(baseWebpackConfig, {
       },
       {
         test: /content\/scss\/bootstrap\.scss$/,
-        use: libCSSExtract.extract(
-          utils.getStyleLoaders('css-loader', 'sass-loader', false)
-        ),
+        use: libCSSExtracted,
       },
       {
         test: /\.css$/,
-        use: libCSSExtract.extract(utils.getStyleLoaders('css-loader', false)),
+        use: libCSSExtracted,
       },
     ],
   },
-  devtool: false,
+  devtool: 'hidden-source-map',
   stats: 'errors-only',
   plugins: [
     libCSSExtract,
     scssExtract,
+    new webpack.HashedModuleIdsPlugin(),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new UglifyJsPlugin({
       uglifyOptions: {
@@ -92,6 +103,7 @@ const webpackConfig = webpackMerge(baseWebpackConfig, {
         mangle: true,
       },
       parallel: true,
+      sourceMap: true,
     }),
   ],
 });

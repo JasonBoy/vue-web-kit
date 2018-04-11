@@ -118,7 +118,6 @@ const webpackConfig = {
         context: CONTENT_PATH,
       },
     }),
-    new webpack.HashedModuleIdsPlugin(),
     ...getCommonsChunkPlugins(),
     new MomentLocalesPlugin({
       localesToKeep: ['zh-cn'],
@@ -157,8 +156,14 @@ function getCommonsChunkPlugins() {
   plugins.push(
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendors',
-      minChunks: module =>
-        module.context && module.context.includes('node_modules'),
+      minChunks: module => {
+        return (
+          module.context &&
+          module.context.includes('node_modules') &&
+          !String(module.resource).endsWith('.css') &&
+          !String(module.resource).endsWith('.scss')
+        );
+      },
     })
   );
   plugins.push(
