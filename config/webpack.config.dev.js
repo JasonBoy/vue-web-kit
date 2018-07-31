@@ -1,49 +1,17 @@
 'use strict';
 
-const path = require('path');
 const webpackMerge = require('webpack-merge');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const DashboardPlugin = require('webpack-dashboard/plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { VueLoaderPlugin } = require('vue-loader');
 const baseWebpackConfig = require('./webpack.config.base');
 const config = require('./env');
 const utils = require('./utils');
 
-const APP_PATH = utils.APP_PATH;
 const isHMREnabled = config.isHMREnabled();
-
-const libCSSExtract = new ExtractTextPlugin({
-  filename: utils.getName('common', 'css', 'contenthash', true),
-  allChunks: true,
-});
-const scssExtract = new ExtractTextPlugin({
-  filename: utils.getName('[name]', 'css', 'contenthash', true),
-  allChunks: true,
-});
-const scssExtracted = scssExtract.extract({
-  use: utils.getStyleLoaders(
-    'css-loader',
-    'postcss-loader',
-    'sass-loader',
-    true
-  ),
-  fallback: 'style-loader',
-});
-
-const libCSSExtracted = libCSSExtract.extract({
-  use: utils.getStyleLoaders('css-loader', 'postcss-loader', true),
-  fallback: 'style-loader',
-});
 
 const webpackConfig = webpackMerge(baseWebpackConfig, {
   output: {
-    publicPath: isHMREnabled
-      ? '/'
-      : utils.normalizeTailSlash(
-          utils.normalizePublicPath(
-            path.join(config.getAppPrefix(), config.getStaticPrefix())
-          ),
-          config.isPrefixTailSlashEnabled()
-        ),
+    publicPath: isHMREnabled ? '/' : utils.getPublicPath(),
     filename: '[name].js',
     chunkFilename: '[name].js',
   },
@@ -53,48 +21,36 @@ const webpackConfig = webpackMerge(baseWebpackConfig, {
         test: /\.vue$/,
         loader: 'vue-loader',
         exclude: /node_modules/,
-        options: {
-          loaders: {
-            scss: isHMREnabled ? undefined : scssExtracted,
-          },
-        },
       },
       {
-        test: /\.scss$/,
-        include: APP_PATH,
-        // exclude: /node_modules/,
-        exclude: [/node_modules/, /content\/scss\/bootstrap\.scss$/],
-        use: isHMREnabled
-          ? utils.getStyleLoaders(
-              'style-loader',
-              'css-loader',
-              'postcss-loader',
-              'sass-loader',
-              true
-            )
-          : scssExtracted,
-      },
-      {
-        test: /\.css$/,
-        use: isHMREnabled
-          ? utils.getStyleLoaders(
-              'style-loader',
-              'css-loader',
-              'postcss-loader',
-              true
-            )
-          : libCSSExtracted,
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          isHMREnabled ? 'vue-style-loader' : MiniCssExtractPlugin.loader,
+          'css-loader',
+          'postcss-loader',
+          'sass-loader',
+        ],
       },
     ],
   },
+  mode: 'development',
   devtool: 'cheap-module-source-map',
-  plugins: [],
+  plugins: [new VueLoaderPlugin()],
 });
 
 if (!isHMREnabled) {
-  webpackConfig.plugins.push(new DashboardPlugin());
-  webpackConfig.plugins.push(libCSSExtract);
-  webpackConfig.plugins.push(scssExtract);
+  webpackConfig.optimization = {
+    namedModules: true,
+    runtimeChunk: 'single',
+  };
+  webpackConfig.plugins.push(
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: '[name].css',
+      chunkFilename: '[id].css',
+    })
+  );
 }
 // console.log(webpackConfig.plugins);
 module.exports = webpackConfig;

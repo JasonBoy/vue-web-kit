@@ -3,6 +3,8 @@
 const path = require('path');
 const SLASH_REGEX = /[\\]+/g;
 
+const config = require('./env');
+
 exports.getName = function getName(chunkName, ext, hashName, DEV_MODE) {
   return (
     chunkName +
@@ -72,6 +74,14 @@ exports.normalizePath = function normalizePath(publicPath, withSlash) {
   return exports.normalizeTailSlash(
     exports.normalizePublicPath(publicPath),
     withSlash
+  );
+};
+exports.getPublicPath = function() {
+  return exports.normalizeTailSlash(
+    exports.normalizePublicPath(
+      path.join(config.getAppPrefix(), config.getStaticPrefix())
+    ),
+    config.isPrefixTailSlashEnabled()
   );
 };
 exports.isWindows = function isWindows() {

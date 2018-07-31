@@ -46,8 +46,9 @@ const config = {};
 //cache non-empty config from env at init time instead of accessing from process.env at runtime to improve performance
 for (let key in configInfo) {
   if (configInfo.hasOwnProperty(key)) {
-    const envValue = process.env[key];
-    config[key] = envValue || configInfo[key];
+    config[key] = process.env.hasOwnProperty(key)
+      ? process.env[key]
+      : configInfo[key];
   }
 }
 
@@ -88,10 +89,10 @@ module.exports = {
     return getConfigProperty('STATIC_ENDPOINT');
   },
   getAppPrefix: () => {
-    return getConfigProperty('APP_PREFIX');
+    return getConfigProperty('APP_PREFIX') || '';
   },
   getStaticPrefix: () => {
-    return getConfigProperty('STATIC_PREFIX');
+    return getConfigProperty('STATIC_PREFIX') || '';
   },
   isPrefixTailSlashEnabled: () => {
     return !!getConfigProperty('PREFIX_TRAILING_SLASH');

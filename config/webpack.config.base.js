@@ -118,7 +118,6 @@ const webpackConfig = {
         context: CONTENT_PATH,
       },
     }),
-    ...getCommonsChunkPlugins(),
     new MomentLocalesPlugin({
       localesToKeep: ['zh-cn'],
     }),
@@ -134,12 +133,14 @@ const webpackConfig = {
         to: utils.resolve('build/app/assets/static'),
       },
     ]),
-    new ManifestPlugin(),
+    new ManifestPlugin({
+      publicPath: '',
+    }),
   ],
 };
 
 if (isHMREnabled) {
-  webpackConfig.plugins.push(new webpack.NamedModulesPlugin());
+  // webpackConfig.plugins.push(new webpack.NamedModulesPlugin());
 }
 
 function getCommonsChunkPlugins() {
