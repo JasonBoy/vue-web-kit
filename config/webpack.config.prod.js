@@ -2,7 +2,6 @@
 
 const webpackMerge = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
@@ -38,8 +37,8 @@ const webpackConfig = webpackMerge(baseWebpackConfig, {
     ],
   },
   mode: 'production',
-  devtool: 'hidden-source-map',
-  stats: 'errors-only',
+  // devtool: 'hidden-source-map',
+  stats: { children: false, warnings: false },
   plugins: [
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
@@ -71,7 +70,6 @@ const webpackConfig = webpackMerge(baseWebpackConfig, {
         parallel: true,
         sourceMap: true,
       }),
-      new OptimizeCSSAssetsPlugin({}),
     ],
   },
 });

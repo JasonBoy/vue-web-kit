@@ -52,3 +52,4 @@ package-lock.json
 app.min.js
 config/app-config.js
 config/app-config.json
+app-config.js
