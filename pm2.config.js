@@ -6,7 +6,7 @@ module.exports = {
   apps: [
     // First application
     {
-      name: 'koa-web-kit',
+      name: 'vue-web-kit',
       script: './app.js',
       instances: 0,
       exec_mode: 'cluster_mode',
