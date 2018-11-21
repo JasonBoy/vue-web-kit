@@ -21,22 +21,22 @@
 
 ### Quick Start
 
-Clone or download the repo, and go to your project root,  
+Clone or download the repo, and go to your project root,
 
-> Before start, recommend to copy the `config/app-config.js.sample` to `config/app-config.js` for local dev configuration
+> Before start, recommend to copy the `config/app-config.js.sample` to `../app-config.js`(or `config/app-config.js` in same dir) for local dev configuration
 
-1. Install Dependencies  
+1. Install Dependencies
 ```bash
 #with yarn, yarn.lock is included
 yarn
-#or npm, no package-lock.json is included, use it as your own taste 
+#or npm, no package-lock.json is included, use it as your own taste
 npm install --no-shrinkwrap
 ```
-2. Build Assets  
-`npm run build` or `npm run watch` for auto recompile your code, or  
-`npm run dev` to start koa with HMR enabled(step 2 & 3 combined, skip step 3)  
-3. Start Koa Http Server  
-`npm start`  
+2. Build Assets
+`npm run build` or `npm run watch` for auto recompile your code, or
+`npm run dev` to start koa with HMR enabled(step 2 & 3 combined, skip step 3)
+3. Start Koa Http Server
+`npm start`
 4. Go to `http://localhost:3000` to view the default react page
 
 ### Project Structure
@@ -55,7 +55,7 @@ npm install --no-shrinkwrap
 
 ### Application Config and Environment Variables
 
-Every project has some configuration or environment variables to make it run differently in different environment,  
+Every project has some configuration or environment variables to make it run differently in different environment,
 for vue-web-kit, we also provide different ways to configure your ENVs.
 
 #### app-config.js/app-config.js.sample
@@ -94,14 +94,14 @@ module.exports = {
 #### Environment Variables
 
 All the variables in config.json can be set with Environment Variables, which have higher priority than `app-config.js`.
-e.g:  
-`> NODE_ENV=production npm start`  
-or  
+e.g:
+`> NODE_ENV=production npm start`
+or
 ```bash
 export PORT=3001
 export NODE_ENV=production
 npm start
-``` 
+```
 BTW you can do Everything you can within cli to set your env.
 
 #### Default `config.default/dev(prod).js` in source code
@@ -119,24 +119,24 @@ The builtin `mw/logger.js` provides some default log functionality for your app,
 
 ### Production Deployment
 
-Deploy your app to production is extremely simple with only one npm script command, you can provide different options in different deployment phases(e.g: install, build, start server),    
-[pm2](https://github.com/Unitech/pm2) inside is used as node process manager.  
+Deploy your app to production is extremely simple with only one npm script command, you can provide different options in different deployment phases(e.g: install, build, start server),
+[pm2](https://github.com/Unitech/pm2) inside is used as node process manager.
 > Global installation of PM2 is not required now, we will use the locally installed pm2.
 
 
 #### Usage
 
-`npm run deploy -- skipInstall skipBuild skipServer`  
-The last three options are boolean values in `0`(or empty, false) and `1`(true).  
+`npm run deploy -- skipInstall skipBuild skipServer`
+The last three options are boolean values in `0`(or empty, false) and `1`(true).
 
 #### Examples:
 
-- `npm run deploy`: no options provided, defaults do the tasks.  
+- `npm run deploy`: no options provided, defaults do the tasks.
 - `npm run deploy -- 1`: this will skip the `npm install --no-shrinkwrap`, and just go to build and start server.
 - `npm run deploy -- 1 0 1`: which will only build your assets
 - `npm run deploy -- 1 1 0`: which will just start node server, useful when all assets were built on a different machine.
 
-> You may need to create/update the script to meet your own needs. 
+> You may need to create/update the script to meet your own needs.
 
 ### License
 
