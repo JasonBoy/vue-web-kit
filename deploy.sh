@@ -75,6 +75,6 @@ if [[ $3 != "1" ]]; then
 
   echo "Using pm2 [$(which pm2)]"
 
-  pm2 reload ecosystem.config.js --update-env --env production
+  pm2 reload pm2.config.js --update-env --env production
 
 fi
