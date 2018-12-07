@@ -25,10 +25,12 @@ const webpackConfig = webpackMerge(baseWebpackConfig, {
       {
         test: /\.(sa|sc|c)ss$/,
         use: [
-          isHMREnabled ? 'vue-style-loader' : MiniCssExtractPlugin.loader,
-          'css-loader',
-          'postcss-loader',
-          'sass-loader',
+          isHMREnabled
+            ? 'vue-style-loader?sourceMap=true'
+            : MiniCssExtractPlugin.loader,
+          'css-loader?sourceMap=true',
+          'postcss-loader?sourceMap=true',
+          'sass-loader?sourceMap=true&outputStyle=compressed',
         ],
       },
     ],
