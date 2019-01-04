@@ -24,19 +24,18 @@ fi
 #remove the freaking package-lock.json
 #rm -f package-lock.json
 
-#uncoment this if you are in China...
-#TaobaoRegistry="http://registry.npm.taobao.org/"
-#NpmRegistry=$(npm config get registry)
-#npm config set registry ${TaobaoRegistry}
-#if [ "$TaobaoRegistry" != "$NpmRegistry" ]; then
-#  echo changing npm registry to taobao registry "$TaobaoRegistry"
-#  npm config set registry "$TaobaoRegistry"
-#fi
-
-#export SASS_BINARY_SITE=https://npm.taobao.org/mirrors/node-sass/
-
 #installing npm modules
 if [[ $1 != "1" ]]; then
+	#uncoment this if you are in China...
+	#TaobaoRegistry="http://registry.npm.taobao.org/"
+	#NpmRegistry=$(npm config get registry)
+	#npm config set registry ${TaobaoRegistry}
+	#if [ "$TaobaoRegistry" != "$NpmRegistry" ]; then
+	#  echo changing npm registry to taobao registry "$TaobaoRegistry"
+	#  npm config set registry "$TaobaoRegistry"
+	#fi
+
+	#export SASS_BINARY_SITE=https://npm.taobao.org/mirrors/node-sass/
   echo installing npm modules...
   npm install --no-shrinkwrap
 #  yarn install --production=false

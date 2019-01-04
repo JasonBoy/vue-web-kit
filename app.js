@@ -104,9 +104,7 @@ async function initHMR() {
     logger.info('HMR enabled, initializing HMR...');
     const koaWebpack = require('koa-webpack');
     const historyApiFallback = require('koa-history-api-fallback');
-    // const getPort = require('get-port');
     const webpack = require('webpack');
-    // const availPort = await getPort();
     const webpackConfig = require('./config/webpack.config.dev');
     const compiler = webpack(
       Object.assign({}, webpackConfig, {
@@ -119,7 +117,6 @@ async function initHMR() {
     await koaWebpack({
       compiler,
       hotClient: {
-        // port: availPort,
         logLevel: 'error',
         hmr: true,
         reload: true,
