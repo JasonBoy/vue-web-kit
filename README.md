@@ -26,18 +26,16 @@ Clone or download the repo, and go to your project root,
 > Before start, recommend to copy the `config/app-config.js.sample` to `../app-config.js`(or `config/app-config.js` in same dir) for local dev configuration
 
 1. Install Dependencies
+
 ```bash
-#with yarn, yarn.lock is included
-yarn
-#or npm, no package-lock.json is included, use it as your own taste
-npm install --no-shrinkwrap
+npm install
 ```
-2. Build Assets
-`npm run build` or `npm run watch` for auto recompile your code, or
-`npm run dev` to start koa with HMR enabled(step 2 & 3 combined, skip step 3)
-3. Start Koa Http Server
-`npm start`
-4. Go to `http://localhost:3000` to view the default react page
+
+2. Start Dev Server
+
+`npm run dev` to start koa with HMR enabled
+
+3. Go to `http://localhost:3000` to view the default react page
 
 ### Project Structure
 
@@ -46,7 +44,6 @@ npm install --no-shrinkwrap
 - `mw` dir, some middleware here, default logger utility also located here
 - `routes` dir, put your koa app routes here
 - `src` dir, all your front-end assets, react components, services, etc...
-- `test` dir, for your tests
 - `utils` dir, utilities for both node.js and front-end
 - `views` dir, your view templates
 - *`build`* dir, all built assets for your project, git ignored
