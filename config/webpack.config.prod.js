@@ -2,7 +2,7 @@
 
 const webpackMerge = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserWebpackPlugin = require('terser-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 const { VueLoaderPlugin } = require('vue-loader');
@@ -52,8 +52,8 @@ const webpackConfig = webpackMerge(baseWebpackConfig, {
     noEmitOnErrors: true, // NoEmitOnErrorsPlugin
     concatenateModules: true, //ModuleConcatenationPlugin
     minimizer: [
-      new UglifyJsPlugin({
-        uglifyOptions: {
+      new TerserWebpackPlugin({
+        terserOptions: {
           warnings: false,
           compress: {
             warnings: false,
@@ -68,7 +68,7 @@ const webpackConfig = webpackMerge(baseWebpackConfig, {
           mangle: true,
         },
         parallel: true,
-        sourceMap: true,
+        sourceMap: false,
       }),
     ],
   },
