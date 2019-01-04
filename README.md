@@ -35,7 +35,7 @@ npm install
 
 `npm run dev` to start koa with HMR enabled
 
-3. Go to `http://localhost:3000` to view the default react page
+3. Go to `http://localhost:3000` to view the default page
 
 ### Project Structure
 
