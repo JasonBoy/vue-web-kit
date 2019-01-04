@@ -140,4 +140,4 @@ The last three options are boolean values in `0`(or empty, false) and `1`(true).
 
 ### License
 
-MIT @ 2016-2018 [jason](http://blog.lovemily.me)
+MIT @ 2016-present [jason](http://blog.lovemily.me)
