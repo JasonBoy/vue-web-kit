@@ -2,19 +2,27 @@
  * Request proxy for backend api
  */
 
+const { PassThrough } = require('stream');
 const Router = require('koa-router');
 
-const apiProxy = require('../api/api-proxy');
+const { HttpClient } = require('../services/HttpClient');
 
-module.exports = {
-  handleApiRequests,
-};
-
-function handleApiRequests(prefix, apiEndpoint) {
-  const router = new Router({ prefix: prefix });
-  router.all('*', async function(ctx) {
-    ctx.respond = false;
-    apiProxy.dispatchRequest.call(ctx, apiEndpoint, false, { prefix });
+exports.handleApiRequests = function(prefix, endPoint) {
+  const routerPrefix = prefix.endsWith('/') ? prefix : `${prefix}/`;
+  // TODO: a path rewrite?
+  const router = new Router({ prefix: routerPrefix });
+  const apiProxy = new HttpClient({ endPoint, prefix });
+  router.all('*', async ctx => {
+    const requestStream = apiProxy.proxyRequest(ctx);
+    const pt = requestStream.pipe(PassThrough());
+    await new Promise(resolve => {
+      requestStream.on('response', response => {
+        ctx.status = response.statusCode;
+        ctx.set(response.headers);
+        resolve();
+      });
+    });
+    ctx.body = pt;
   });
   return router.routes();
-}
+};

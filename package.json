@@ -81,14 +81,11 @@
     "pino-pretty": "2.6.1",
     "pm2": "3.4.0",
     "qs": "6.7.0",
-    "request": "2.88.0",
-    "request-debug": "0.2.0",
     "tunnel": "0.0.6",
     "url-parse": "1.4.6",
     "vue": "2.6.10",
     "vue-router": "3.0.6",
-    "whatwg-fetch": "2.0.4",
-    "winston": "2.4.1"
+    "whatwg-fetch": "2.0.4"
   },
   "devDependencies": {
     "@babel/cli": "7.4.3",
