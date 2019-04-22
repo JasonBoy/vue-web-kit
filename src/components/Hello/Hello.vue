@@ -3,8 +3,13 @@
 </template>
 
 <script>
+import r from 'modules/Request';
+
 export default {
   name: 'hello',
+  mounted() {
+    r.get('/xxx');
+  },
 };
 </script>
 

@@ -48,9 +48,17 @@ const webpackConfig = webpackMerge(baseWebpackConfig, {
   ],
   optimization: {
     namedModules: false,
-    runtimeChunk: 'single',
-    noEmitOnErrors: true, // NoEmitOnErrorsPlugin
-    concatenateModules: true, //ModuleConcatenationPlugin
+    runtimeChunk: { name: utils.ENTRY_NAME.VENDORS },
+    noEmitOnErrors: true,
+    splitChunks: {
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/i,
+          name: utils.ENTRY_NAME.VENDORS,
+          chunks: 'initial',
+        },
+      },
+    },
     minimizer: [
       new TerserWebpackPlugin({
         terserOptions: {

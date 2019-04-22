@@ -5,6 +5,17 @@ const SLASH_REGEX = /[\\]+/g;
 
 const config = require('./env');
 
+const ENTRY_NAME = {
+  APP: 'main',
+  VENDORS: 'vendors',
+  RUNTIME: 'runtime',
+  APP_JS: 'main.js',
+  VENDORS_JS: 'vendors.js',
+  RUNTIME_JS: 'runtime.js',
+};
+
+exports.ENTRY_NAME = ENTRY_NAME;
+
 exports.getName = function getName(chunkName, ext, hashName, DEV_MODE) {
   return (
     chunkName +
