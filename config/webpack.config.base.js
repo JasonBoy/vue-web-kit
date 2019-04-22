@@ -101,7 +101,7 @@ const webpackConfig = {
     ],
   },
   plugins: [
-    new CleanWebpackPlugin(['./build/app'], { root: process.cwd() }),
+    new CleanWebpackPlugin({ verbose: false }),
     new webpack.DefinePlugin({
       'process.env.DEV_MODE': DEV_MODE,
       'process.env.prefix': JSON.stringify(prefix),

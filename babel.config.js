@@ -6,12 +6,10 @@ module.exports = function(api) {
       [
         '@babel/preset-env',
         {
-          targets: {
-            browsers: ['> 0.5%', 'not ie 11', 'not op_mini all'],
-          },
-          loose: true,
+          targets: {},
           useBuiltIns: 'usage',
           modules: false,
+          corejs: 3,
         },
       ],
     ],

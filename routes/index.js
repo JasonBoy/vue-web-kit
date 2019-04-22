@@ -11,9 +11,8 @@ const router = new Router({
 });
 
 router.use(async function(ctx, next) {
-  // console.log(`start of index router: ${ctx.path}`);
+  ctx.set('Cache-Control', 'no-cache');
   await next();
-  // console.log(`end of index router: ${ctx.path}`);
 });
 
 router.get('/', async function(ctx) {
