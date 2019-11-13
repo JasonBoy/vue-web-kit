@@ -10,7 +10,6 @@ const session = require('koa-session');
 const views = require('koa-views');
 const morgan = require('koa-morgan');
 const serveStatic = require('koa-static');
-const convert = require('koa-convert');
 const helmet = require('koa-helmet');
 const cons = require('consolidate');
 const nunjucks = require('nunjucks');
@@ -138,7 +137,7 @@ async function initHMR() {
         if (!HMRInitialized) {
           HMRInitialized = true;
           // app.use(instance);
-          app.use(convert(historyApiFallback()));
+          app.use(historyApiFallback());
           app.use(instance);
         }
       })

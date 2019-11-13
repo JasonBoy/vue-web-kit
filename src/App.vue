@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <img src="./logo.png" />
+    <img src="./assets/images/logo.png" />
     <jsx-demo :name="name"></jsx-demo>
     <router-view></router-view>
   </div>
