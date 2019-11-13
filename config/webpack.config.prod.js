@@ -16,7 +16,6 @@ const webpackConfig = webpackMerge(baseWebpackConfig, {
   output: {
     publicPath: config.getStaticAssetsEndpoint() + utils.getPublicPath(),
     filename: utils.getName('[name]', 'js', '', false),
-    chunkFilename: '[name]-[chunkhash].chunk.js',
   },
   module: {
     rules: [
@@ -42,8 +41,7 @@ const webpackConfig = webpackMerge(baseWebpackConfig, {
   plugins: [
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
-      filename: '[name]-[hash:9].css',
-      chunkFilename: '[id]-[hash:9].css',
+      filename: utils.getName('[name]', 'css', 'contenthash', false),
     }),
   ],
   optimization: {
